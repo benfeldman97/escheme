@@ -2,23 +2,23 @@
 
 ### Table of Contents
 
-- [Introduction](#Introduction)
-- [Configuring AWS](#Configuring-AWS)
-- [Running the app locally](#Running-the-app-locally)
-- [How it works](#How-it-works)
-- [Known issues](#Known-issues)
-- [Future improvements](#Future-improvements)
-- [Cost analysis](#Cost-analysis)
-- [Dependencies](#Dependencies)
-- [External scripts](#External-scripts)
+- [Introduction](#introduction)
+- [Configuring AWS](#configuring-aws)
+- [Running the app locally](#running-the-app-locally)
+- [How it works](#how-it-works)
+- [Known issues](#known-issues)
+- [Future improvements](#future-improvements)
+- [Cost analysis](#cost-analysis)
+- [Dependencies](#dependencies)
+- [External scripts](#external-scripts)
 
 ### Introduction
 
-The E-Scheme is a serverless single page web application where [Virginia Space](vaspace.org) engineers can easily view and manage interactive versions of the MARS Pad 0A FGSE Schematic.
+The E-Scheme is a serverless single page web application where [Virginia Space](http://vaspace.org) engineers can easily view and manage interactive versions of the MARS Pad 0A FGSE Schematic.
 
 All the files in this repository are written in JavaScript, HTML, and CSS... but you don't need to know how to code in order to manipulate the data on the page. The front-end viewer content is 100% dynamic and gets loaded through three familiar components: an Excel spreadsheet, a CAD drawing, and an image.
 
-On the back-end, the application uses the [NodeJS](https://nodejs.org/en/) platform, [Express](https://expressjs.com/) framework, [Jquery](https://jquery.com/) library, and some [Bootstrap](http://getbootstrap.com/) styling to build a simple, scalable app that is deployed to [AWS Elastic Beanstalk](http://aws.amazon.com/elasticbeanstalk/) and then virtually hosted on an [Amazon EC2](aws.amazon.com/ec2/) instance. The application currently stores data on [Amazon DynamoDB](http://aws.amazon.com/dynamodb/) and has the [potential](#Future-improvements) to hold static files on [Amazon S3](aws.amazon.com/s3) and handle different users on [Amazon Cognito](aws.amazon.com/cognito/).
+On the back-end, the application uses the [NodeJS](https://nodejs.org/en/) platform, [Express](https://expressjs.com/) framework, [Jquery](https://jquery.com/) library, and some [Bootstrap](http://getbootstrap.com/) styling to build a simple, scalable app that is deployed to [AWS Elastic Beanstalk](http://aws.amazon.com/elasticbeanstalk/) and then virtually hosted on an [Amazon EC2](aws.amazon.com/ec2/) instance. The application currently stores data on [Amazon DynamoDB](http://aws.amazon.com/dynamodb/) and has the [potential](#future-improvements) to hold static files on [Amazon S3](http://aws.amazon.com/s3) and handle different users on [Amazon Cognito](aws.amazon.com/cognito/).
 
 ### Configuring AWS
 
@@ -33,6 +33,7 @@ On the back-end, the application uses the [NodeJS](https://nodejs.org/en/) platf
 - **AmazonEC2FullAccess**
 - **AmazonDynamoDBFullAccess**
 - **AWSElasticBeanstalkFullAccess**
+
 6.  Review and submit.
 7.  Make note of your **Access Key ID** and **Secret Access ID** and input these into the [config.json](config.json) file along with the AWS **region** in which you plan to deploy. *Your Secret Access ID will not be available again once you leave this page*.
 
@@ -59,14 +60,14 @@ On the back-end, the application uses the [NodeJS](https://nodejs.org/en/) platf
 
 1. Navigate to the *escheme* directory on your computer in the command line.
 2. Ensure that **Node** is installed by running `npm install`.
-3. Install each of your [dependencies](#Dependencies) by running `npm install --save` plus the dependency name.
+3. Install each of your [dependencies](#dependencies) by running `npm install --save` plus the dependency name.
 4. When you want to start the application, run `npm start`.
 5. The application should be live in your local web browser at http://127.0.0.1:3000/.
 6. To stop the application, simply press **Ctrl + C** in the command line window, then enter **y** when prompted.
 
 ### How it works
 
-The E-Scheme can generate any version of the schematic in a matter of seconds based on three simple components: [parts](#Parts), [drawings](#Drawings), and [images](#Images). First, all the parts and their information gets automatically loaded into the **View All Parts** tab, regardless of whether or not they're featured in any of the stored schematics. Next, the application loops through each schematic listed in the tab navigation panel and creates an [image map](https://www.w3schools.com/tags/tag_map.asp). If the *Find Number* of a part matches up with the value of a *text entity* in a drawing, a rectangular area is created at the pixel coordinates of the text on the image that corresponds to the drawing, which is then linked to the respective part BOM.
+The E-Scheme can generate any version of the schematic in a matter of seconds based on three simple components: [parts](#parts), [drawings](#drawings), and [images](#images). First, all the parts and their information gets automatically loaded into the **View All Parts** tab, regardless of whether or not they're featured in any of the stored schematics. Next, the application loops through each schematic listed in the tab navigation panel and creates an [image map](https://www.w3schools.com/tags/tag_map.asp). If the *Find Number* of a part matches up with the value of a *text entity* in a drawing, a rectangular area is created at the pixel coordinates of the text on the image that corresponds to the drawing, which is then linked to the respective part BOM.
 
 None of these components are hard-coded into the application--everything is in terms of variables. Every time the page refreshes, the application does a [scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) of the DynamoDB tables and updates the parts, drawings, and images arrays.
 
@@ -74,7 +75,7 @@ None of these components are hard-coded into the application--everything is in t
 
 Parts are contained in an array of JSON objects that match the *Item* [formatting for a DynamoDB parameter](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html#API_PutItem_RequestSyntax). Each object represents an individual part with a find number, type, and any other specified attributes.
 
-You can change the parts list by manually editing the *Parts* table in the [Amazon DynamoDB Console](https://aws.amazon.com/dynamodb), using the website interface to add, edit, and delete parts, or uploading an Excel spreadsheet containing a bill of materials. The BOM you upload can have any number of parts and any combination of attributes in the column header; the only requirement is that one of those attributes be some variation of *Find Number* and one be some variation of *Type*. The spreadsheet must also be located in the [escheme/static/excel](static/excel) folder to be uploaded (*[see why](#File-uploads)*).
+You can change the parts list by manually editing the *Parts* table in the [Amazon DynamoDB Console](https://aws.amazon.com/dynamodb), using the website interface to add, edit, and delete parts, or uploading an Excel spreadsheet containing a bill of materials. The BOM you upload can have any number of parts and any combination of attributes in the column header; the only requirement is that one of those attributes be some variation of *Find Number* and one be some variation of *Type*. The spreadsheet must also be located in the [escheme/static/excel](static/excel) folder to be uploaded (*[see why](#file-uploads)*).
 
 Note that parts are uniquely identified in the database by their find numbers. The application will not allow more than one part with the same find number to be added. If an attempt is made to add a part with an existing find number, that new part will override the existing part. This is actually quite useful for uploading BOM revisions without having to pick out just the revised parts, because all the parts that haven't changed won't be duplicated.
 
@@ -82,13 +83,13 @@ Note that parts are uniquely identified in the database by their find numbers. T
 
 Drawings are contained in an array of JSON objects that match the *Item* [formatting for a DynamoDB parameter](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html#API_PutItem_RequestSyntax). Each object represents an individual drawing with an ID, name, drawing file reference, image file reference, drawing width, drawing height, image width, image height, and an array of text entities. Each text entity represents an individual piece of text from the drawing with its value, height, width, and exact positioning in the [CAD object coordinate system](https://www.autodesk.com/techpubs/autocad/acadr14/dxf/object_coordinate_systems_40ocs41_al_u05_c.htm). These properties are all extracted from a [specific output through the parsing of the CAD file](http://images.autodesk.com/adsk/files/autocad_2012_pdf_dxf-reference_enu.pdf).
 
-You can change the drawings list by manually editing the *Drawings* table in the [Amazon DynamoDB Console](https://aws.amazon.com/dynamodb) or using the website interface to create and delete schematics. Uploading schematics requires only a CAD file with a DXF extension, an image file, and a name for the schematic. The drawing file must be located in the [escheme/static/drawings](drawings) folder and the image file must be located in the [escheme/static/images](images) folder (*[see why](#File-uploads)*).
+You can change the drawings list by manually editing the *Drawings* table in the [Amazon DynamoDB Console](https://aws.amazon.com/dynamodb) or using the website interface to create and delete schematics. Uploading schematics requires only a CAD file with a DXF extension, an image file, and a name for the schematic. The drawing file must be located in the [escheme/static/drawings](static/drawings) folder and the image file must be located in the [escheme/static/images](static/images) folder (*[see why](#file-uploads)*).
 
 Note that drawings are uniquely identified in the database by an ID, given by the CAD finger print ID. The application will not allow more than one drawing with the same ID to be added. If an attempt is made to add a drawing with an existing ID, that new drawing will override the existing drawing. Beware of this when editing an existing drawing on AutoCAD in its original file copy.
 
 #### Images
 
-Images are not actually contained as separate components. Their relevant properties (file reference, width, and height) are stored in the *Drawings* database along with their corresponding drawings. Unlike the parts list, you can't have a drawing without an image, and vice versa. The optimal way to contain image files and their properties would be through [Amazon S3](https://aws.amazon.com/s3) as described [here](#Storing-static-files).
+Images are not actually contained as separate components. Their relevant properties (file reference, width, and height) are stored in the *Drawings* database along with their corresponding drawings. Unlike the parts list, you can't have a drawing without an image, and vice versa. The optimal way to contain image files and their properties would be through [Amazon S3](https://aws.amazon.com/s3) as described [here](#storing-static-files).
 
 Before uploading an image, you must follow these specific instructions to ensure that the application accurately converts between the [CAD object coordinate system](https://www.autodesk.com/techpubs/autocad/acadr14/dxf/object_coordinate_systems_40ocs41_al_u05_c.htm) and the pixels on the image:
 
@@ -102,7 +103,7 @@ Before uploading an image, you must follow these specific instructions to ensure
 
 ### Known issues
 
-There are a few very minor bugs in the E-Scheme that slightly limit its capabilities, but do not by any means prevent it from being a fully-functioning prototype application. Most of these bugs should have quick fixes and may also be resolved by implementation of some of the [future improvements](#Future-improvements).
+There are a few very minor bugs in the E-Scheme that slightly limit its capabilities, but do not by any means prevent it from being a fully-functioning prototype application. Most of these bugs should have quick fixes and may also be resolved by implementation of some of the [future improvements](#future-improvements).
 
 #### Relative file paths
 
@@ -110,25 +111,29 @@ For some reason, the relative file paths that Node accepts for importing modules
 
 #### Page refresh on database updates
 
-Every time the page gets refreshed, the functions [getParts](app.js:42) and [getDrawings](app.js:56) are called to perform scans of the respective [DynamoDB](http://aws.amazon.com/dynamodb/) tables, so that the most updated parts and drawings lists are passed to the [index](/views/index.html) page on render. Unfortunately, the page render will always finish before the [DynamoDB scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) completes, causing the data on the front-end to be "one step behind" the data on the back-end. Whenever a part or drawing is added, edited, or deleted, it takes one or two refreshes for the website interface to actually display the update. Attempts have been made to make the scan function calls redundantly throughout [app.js](app.js) with no luck. Possible solutions to this problem include making use of [JavaScript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), the [async library](https://github.com/caolan/async), or looking into the service [Amazon API Gateway](http://aws.amazon.com/API-Gateway/) to directly handle all [DynamoDB](http://aws.amazon.com/dynamodb/) requests.
+Every time the page gets refreshed, the functions [getParts](app.js:42) and [getDrawings](app.js:56) are called to perform scans of the respective [DynamoDB](http://aws.amazon.com/dynamodb/) tables, so that the most updated parts and drawings lists are passed to the [index](views/index.html) page on render. Unfortunately, the page render will always finish before the [DynamoDB scan](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) completes, causing the data on the front-end to be "one step behind" the data on the back-end. Whenever a part or drawing is added, edited, or deleted, it takes one or two refreshes for the website interface to actually display the update. Attempts have been made to make the scan function calls redundantly throughout [app.js](app.js) with no luck. Possible solutions to this problem include making use of [JavaScript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), the [async library](https://github.com/caolan/async), or looking into the service [Amazon API Gateway](http://aws.amazon.com/API-Gateway/) to directly handle all [DynamoDB](http://aws.amazon.com/dynamodb/) requests.
 
 #### Active tabs
 
-You might notice that right after the page is refreshed, the **View All Parts** tab has a big empty area you can scroll down to underneath the parts list. What's really in that area is the schematic images from the other tabs with their *visibility* set to *hidden*. Once you click another tab, the [makeVisible](/views/scripts/makeVisibleScript.html) function toggles the *visibility* style to its default and the **View All Parts** tab will only display the parts list. This is a temporary fix to prevent an error on the page render caused by the [Bootstrap tab navigation template](https://www.w3schools.com/bootstrap/bootstrap_tabs_pills.asp). If you look at the *tab-content div* in [tabs.html](/views/partials/tabs.html), you'll notice that all its interior *divs* include the class name *in active*. This class ensures that the data within each tab is loaded on the initial render, and consequently, the content for all the tabs is technically displayed under the *home* tab...its just set to be invisible.
+You might notice that right after the page is refreshed, the **View All Parts** tab has a big empty area you can scroll down to underneath the parts list. What's really in that area is the schematic images from the other tabs with their *visibility* set to *hidden*. Once you click another tab, the [makeVisible](views/scripts/makeVisibleScript.html) function toggles the *visibility* style to its default and the **View All Parts** tab will only display the parts list. This is a temporary fix to prevent an error on the page render caused by the [Bootstrap tab navigation template](https://www.w3schools.com/bootstrap/bootstrap_tabs_pills.asp). If you look at the *tab-content div* in [tabs.html](views/partials/tabs.html), you'll notice that all its interior *divs* include the class name *in active*. This class ensures that the data within each tab is loaded on the initial render, and consequently, the content for all the tabs is technically displayed under the *home* tab...its just set to be invisible.
+
+#### Image map initialization
+
+Sometimes, when you first click on a tab, the image map coordinates are incorrect. Changing the window size or clicking on another tab and returning to the desired schematic will eliminate the issue, but the initialization error has to do with the [image map resizer library](https://github.com/davidjbradshaw/image-map-resizer).
 
 #### File uploads
 
-When uploading parts, drawings, or images files to the site, they must already be located in the [excel](static/excel), [drawings](static/drawings), or [images](static/images) folder, respectively, within the *escheme* directory. This was a cheat implemented to demonstrate the user ability to convert familiar file types into web content on the front-end. In the [uploadParts](views/scripts/uploadPartsScript.html) and [createSchematic](views/scripts/createSchematicScript.html) script tags, when we get the value for file *form input* elements from the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model), it only returns a fake path, such as *C:\fakepath\spreadsheet-name.xlsx*. The [modules](#Dependencies) required to convert these files to JSON take in a file path parameter, thus that file path must be relative to the [controller functions](controllers). The correct way to pass the file data would be to use a [File Reader]() object or something similar to the [Jquery fileupload library](), then temporarily store the data in an uploads folder in the *escheme* directory. You can also take advantage of some of the storage features offered by [Amazon S3](http://aws.amazon.com/s3/) (see [this](#Storing-static-files) improvement).
+When uploading parts, drawings, or images files to the site, they must already be located in the [excel](static/excel), [drawings](static/drawings), or [images](static/images) folder, respectively, within the *escheme* directory. This was a cheat implemented to demonstrate the user ability to convert familiar file types into web content on the front-end. In the [uploadParts](views/scripts/uploadPartsScript.html) and [createSchematic](views/scripts/createSchematicScript.html) script tags, when we get the value for file *form input* elements from the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model), it only returns a fake path, such as *C:\fakepath\spreadsheet-name.xlsx*. The [modules](#dependencies) required to convert these files to JSON take in a file path parameter, thus that file path must be relative to the [controller functions](controllers). The correct way to pass the file data would be to use a [File Reader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) object or something similar to the [Jquery fileupload library](https://github.com/blueimp/jQuery-File-Upload), then temporarily store the data in an uploads folder in the *escheme* directory. You can also take advantage of some of the storage features offered by [Amazon S3](http://aws.amazon.com/s3/) (see [this](#storing-static-files) improvement).
 
 ### Future improvements
 
 #### Increasing database efficiency
 
-Right now, the application [scans](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) the [DynamoDB](http://aws.amazon.com/dynamoDB/) tables every time the page refreshes. The number of requests made to DynamoDB directly drives the [cost](#Cost-analysis) of its service and makes the application run slower. It would therefore be more efficient to only perform these scans conditionally on whether or not an update has just occurred. The scan would still of course need to take place on the initial page render. This improvement relates to the [page refresh](#Page-refresh-on-database-updates) issue, and could also be carried out using [Amazon API Gateway](http://aws.amazon.com/API-Gateway/). Regardless of if the improvement is implemented, the functions [getAll](app.js:87), [getParts](app.js:42), and [getDrawings](app.js:56) should be refactored into separate [controller](controllers) files.
+Right now, the application [scans](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html) the [DynamoDB](http://aws.amazon.com/dynamoDB/) tables every time the page refreshes. The number of requests made to DynamoDB directly drives the [cost](#cost-analysis) of its service and makes the application run slower. It would therefore be more efficient to only perform these scans conditionally on whether or not an update has just occurred. The scan would still of course need to take place on the initial page render. This improvement relates to the [page refresh](#page-refresh-on-database-updates) issue, and could also be carried out using [Amazon API Gateway](http://aws.amazon.com/API-Gateway/). Regardless of if the improvement is implemented, the functions [getAll](app.js:87), [getParts](app.js:42), and [getDrawings](app.js:56) should be refactored into separate [controller](controllers) files.
 
 #### Storing static files
 
-[Amazon S3](http://aws.amazon.com/API-Gateway/), which stands for *Simple Storage Service*, offers the ability to upload, store, and retrieve static files by making requests similar to those used for DynamoDB. This service would be extremely useful for holding our image files so that they can be uploaded from any source and then retrieved by any user. You could also use S3 to temporarily store Excel spreadsheets and CAD drawings, but once the data is extracted from those files there's no need to keep them any longer. S3 does require some more complicated [configurations](#Configuring-AWS) in AWS, including the option to only grant certain users the permission to upload files, but once implemented it will definitely save storage space and streamline the [file upload](#File-uploads) process.
+[Amazon S3](http://aws.amazon.com/API-Gateway/), which stands for *Simple Storage Service*, offers the ability to upload, store, and retrieve static files by making requests similar to those used for DynamoDB. This service would be extremely useful for holding our image files so that they can be uploaded from any source and then retrieved by any user. You could also use S3 to temporarily store Excel spreadsheets and CAD drawings, but once the data is extracted from those files there's no need to keep them any longer. S3 does require some more complicated [configurations](#configuring-AWS) in AWS, including the option to only grant certain users the permission to upload files, but once implemented it will definitely save storage space and streamline the [file upload](#file-uploads) process.
 
 #### Expanding the image map
 
@@ -171,6 +176,7 @@ So let's do a long-term cost analysis of the E-Scheme:
   - constantly running 24 hours a day
   - storing the full BOM (about 1600 parts)
   - a full schematic and a separate schematic for each panel (about 20 total drawings and images)
+  
 * Per month, we'd need about 720 hours of hosting our EC2 instance for a total of $12.24.
 * One part takes up 0.39 KB and one drawing takes up 9.24 KB of storage on DynamoDB. For all the parts and drawings, that adds up to 808.8 KB, which is well within the limits of the free storage.
 * In the worst case scenario, we'd need the capacity to read/write all of our DynamoDB items every second. That's 1620 WCU and 1620 RCU for a total of $1.27.
