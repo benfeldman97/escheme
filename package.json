@@ -1,0 +1,20 @@
+{
+  "name": "E-Scheme",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "aws-sdk": "latest",
+    "body-parser": "latest",
+    "dxf-parser": "^0.4.8",
+    "ejs": "latest",
+    "event": "^1.0.0",
+    "express": "latest",
+    "image-size": "^0.6.1"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "devDependencies": {
+    "excel-as-json": "^2.0.1"
+  }
+}
