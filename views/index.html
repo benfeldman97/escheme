@@ -1,0 +1,20 @@
+<!-- views/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>E-Scheme</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="styles/style.css" type="text/css" rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body class="container">
+    <div class="header"><% include ./partials/header.html %></div>
+    <!-- modals comes before tabs because they're targeted in multiple places -->
+    <div class="modals"><% include ./partials/modals.html %></div>
+    <div class="tabs"><% include ./partials/tabs.html %></div>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<!-- deletePartScript.html -->
+<!-- Makes a POST request to the /deletePart route on press of the deletePart button -->
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    //identifies the button using partId
+    $("<%= "#deletePart" + partId %>").click(() => {
+      $.post("/deletePart", {
+        findNumber: "<%= part.findNumber.S %>", //this is the only attribute needed to delete an item
+        type: "<%= part.type.S %>"
+      });
+      $("<%= "#bom" + partId %>").modal('hide'); //close the BOM modal
+      $.get("/"); //render page with updated database
+    });
+  });
+</script>

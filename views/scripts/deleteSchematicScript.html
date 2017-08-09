@@ -1,0 +1,15 @@
+<!-- deleteSchematicScript.html -->
+<!-- Makes a POST request to the /deleteSchematic route on press of the deleteSchematic button -->
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    //identifies the button using the drawing ID
+    $("<%= "#deleteSchematic" + drawing.id.S %>").click(() => {
+      $.post("/deleteSchematic", {
+        id: "<%= drawing.id.S %>", //this is the only attribute needed to delete an item
+        name: "<%= drawing.name.S %>"
+      });
+      $.get("/"); //render page with updated database
+    });
+  });
+</script>

@@ -1,0 +1,18 @@
+<!-- uploadPartsScript.html -->
+<!-- Makes a POST request to the /uploadParts route on submission of the uploadPartsForm -->
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    $("#uploadParts").click(() => {
+      //THIS IS A CHEAT: file uploads will only return a fakepath like C:\fakepath\realfilename
+      //A file upload or file reader dependency should be implemented to get the actual file content
+      let partsFileArray = document.getElementById("partsFile").value.split('\\');
+      let partsFile = partsFileArray[partsFileArray.length - 1]; //isolates the realfilename
+      $.post("/uploadParts", {
+        partsFile: partsFile
+      });
+      $("#uploadPartsModal").modal('hide'); //closes the form
+      $.get("/"); //renders page with updated database
+    });
+  });
+</script>

@@ -1,0 +1,54 @@
+<!-- schematics.html -->
+<!-- Displays schematic for each schematic tab -->
+<!-- Includes a delete button and a versatile image map -->
+
+<div class="images">
+  <!-- Triggers delete schematic script -->
+  <button type="button" class="btn btn-default" id="<%= "deleteSchematic" + drawing.id.S %>">Delete Schematic</button>
+  <!-- search bar placeholder to zoom on search -->
+  <br></br>
+  <!-- specific HTML wrapping to conform with panzoom library requirements -->
+  <section style="border-style:solid; border-width:medium" id="<%= "section" + drawing.id.S %>">
+    <div class="parent">
+      <div class="panzoom">
+        <!-- automatically adjust display to fit window size -->
+        <img width="100%" height=auto id="<%= "image" + drawing.id.S %>" src="<%= 'images/' + drawing.imageFile.S %>" usemap="<%= "#map" + drawing.id.S %>" />
+      </div>
+    </div>
+  </section>
+  <map id="<%= "map" + drawing.id.S %>" name="<%= "map" + drawing.id.S %>">
+    <% parts.map((part) => {
+        partId = part.findNumber.S.replace(".", "");
+        horizontalRatio = drawing.imageWidth.N / drawing.drawingWidth.N; <!-- convert between image and drawing coordinates -->
+        verticalRatio = drawing.imageHeight.N / drawing.drawingHeight.N;
+        drawing.entities.L.map((entity) => {
+          <!-- check for matches between Parts table and drawing entities -->
+          if(entity.M.text.S.includes(part.findNumber.S)){
+            <!-- IMPORTANT: Area coordinates consider top left corner to be (0,0) while drawing coordinates consider bottom left corner to be (0,0) -->
+            switch(entity.M.type.S){
+              case "TEXT":
+                left = entity.M.x.N * horizontalRatio;
+                bottom = drawing.imageHeight.N - entity.M.y.N * verticalRatio;
+                right = left + entity.M.textWidth.N * horizontalRatio * 1.4; <!-- 1.4 used for margin error...makes rectangle a little bigger -->
+                top = bottom - entity.M.textHeight.N * verticalRatio * 1.4;
+                break;
+              case "MTEXT":
+                right = entity.M.x.N * horizontalRatio;
+                top = drawing.imageHeight.N - entity.M.y.N * verticalRatio;
+                left = right - entity.M.textWidth.N * horizontalRatio * 1.4;
+                bottom = top + entity.M.textHeight.N * verticalRatio * 1.4;
+                break;
+              default:
+                break;
+            } %>
+            <!-- Triggers respective BOM modal -->
+            <area class="area" style="cursor:pointer;" shape="rect" coords="<%= left %>, <%= top %>, <%= right %>, <%= bottom %>" data-toggle="modal" data-target="<%= "#bom" + partId %>">
+          <% }
+        });
+    }); %>
+  </map>
+</div>
+
+<% include ../scripts/imageMapResizeScript.html %>
+<% include ../scripts/panzoomScript.html %>
+<% include ../scripts/deleteSchematicScript.html %>

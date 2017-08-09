@@ -1,0 +1,90 @@
+.container {
+  overflow: scroll;
+  font-family: "Arial"
+}
+
+.text-primary {
+  font-weight: bold;
+}
+
+.header {
+  background-color: #466995;
+  display: inline-block;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: auto;
+  z-index:1000;
+}
+
+.header-contents {
+  margin: 10px;
+}
+
+#title {
+  position: absolute;
+  font-family: "Arial Black";
+  left: 220px;
+  font-size: 80px;
+  top: 0px;
+  color: white;
+}
+
+#login {
+  position: fixed;
+  top: 40px;
+  right: 20px;
+}
+
+.nav {
+  position: absolute;
+  top: 140px;
+  left: 20px;
+  font-family: "Arial Black"
+}
+
+.modal {
+  z-index: 1000;
+}
+
+.parts-header {
+  top: 200px;
+  left: 20px;
+  position: absolute;
+}
+
+#partSearch {
+  display: block;
+  top: 10px;
+  position: relative;
+}
+
+.part-columns {
+  position: absolute;
+  top: 280px;
+  left: 20px;
+  right: 20px;
+  -webkit-column-width: 150px;
+  -moz-column-width: 150px;
+  column-width: 150px;
+  height: auto;
+  width: 100%;
+}
+
+.parts {
+  display: inline;
+}
+
+.images {
+  position: absolute;
+  left: 20px;
+  top: 200px;
+  right: 20px;
+}
+
+.pair {
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-count: 2;
+}

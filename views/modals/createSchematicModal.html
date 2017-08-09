@@ -1,0 +1,36 @@
+<!-- createSchematicModal.html -->
+<!-- Contains form to add a new schematic to the Drawings table on DynamoDB -->
+<!-- Two file uploads occur on this form -->
+
+<!-- Bootstrap modal format -->
+<div class="modal fade" id="createSchematicModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create a new schematic</h4>
+      </div>
+      <div class="modal-body">
+        <form id="createSchematicForm" role="form">
+          <div class="form-group">
+            <h5>Upload a CAD drawing from your computer. The drawing must have file extension ".dxf"</h5>
+            <label for="drawingFile"></label> <!-- Empty labels included in case the form serialize method were called -->
+            <input type="file" id="drawingFile" name="drawingFile" accept=".dxf">
+            <h5>Upload an image from your computer. The image must have a valid image file extension.</h5>
+            <label for "imageFile"></label>
+            <input type="file" id="imageFile" name="imageFile" accept="image/*">
+            <label for="schematicName">Schematic name</label>
+            <input type="text" class="form-control" id="schematicName" name="schematicName">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <!-- Triggers createSchematic script -->
+        <button id="createSchematic" type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ../scripts/createSchematicScript.html %>

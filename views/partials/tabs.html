@@ -1,0 +1,30 @@
+<!-- tabs.html -->
+<!-- Tab navigation panel below header -->
+<!-- Includes parts list, each schematic, and the create new schematic button -->
+<!-- Tabs do not render different HTML pages...just changes view dynamically -->
+
+<!-- Bootstrap tab navigation format -->
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#partsList">View All Parts</a></li>
+  <% drawings.map((drawing) => { %>
+    <li><a data-toggle="tab" onclick="makeVisible()" href="<%= "#tab" + drawing.id.S %>"><%= drawing.name.S %></a></li>
+  <% }) %>
+  <li><a data-toggle="modal" href="#createSchematicModal">+</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="partsList" class="tab-pane in active">
+    <% include ./parts.html %>
+  </div>
+  <% drawings.map((drawing) => { %>
+      <!-- Class must include "in active" so that schematics get loaded on initial render -->
+      <!-- BUT tyle must be initially set to hide schematics because if you scrolled down on the parts list at first, you would see each schematic -->
+      <!-- Visibility changes once a tab is clicked -->
+      <div class="schematic tab-pane in active" style="visibility:hidden" id="<%= "tab" + drawing.id.S %>">
+        <%include ./schematics.html %>
+      </div>
+  <% }) %>
+</div>
+
+<% include ../modals/createSchematicModal.html %>
+<% include ../scripts/makeVisibleScript.html %>

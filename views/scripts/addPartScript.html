@@ -1,0 +1,12 @@
+<!-- addPartScript.html -->
+<!-- Makes a POST request to the /addPart route on submission of the addPartForm -->
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    $("#addPart").click(() => {
+      $.post("/addPart", $("#addPartForm").serialize()); //serialize returns the form in JSON
+      $("#addPartModal").modal('hide'); //close the modal
+      $.get("/"); //render the page with updated database
+    });
+  });
+</script>

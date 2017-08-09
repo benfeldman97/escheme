@@ -1,0 +1,41 @@
+<!-- bomModal.html -->
+<!-- Contains the BOM information for each part, retrieved from the Parts table on DynamoDB -->
+<!-- Also includes buttons to edit or delete part -->
+
+<!-- Bootstrap modal format -->
+<div class="modal fade" id="<%= "bom" + partId %>" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          <%= part.type.S + " " + part.findNumber.S %>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <ul style="list-style-type:none">
+          <% for(let key in part){
+              <!-- No need to display type and findNumber because they are included in the modal title -->
+              if(key != "type" && key != "findNumber"){ %>
+                <!-- Separate into two columns -->
+                <div class="pair">
+                  <li class="text-primary"><%= key + ":" %></li>
+                  <li><%= part[key].S %></li>
+                </div>
+              <% }
+            } %>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <!-- Triggers delete part script -->
+        <button id="<%= "deletePart" + partId %>" type="button" class="btn btn-primary">Delete</button>
+        <!-- Triggers edit part modal...this will display over the BOM modal -->
+        <button id="<%= "editPart" + partId %>" data-toggle="modal" data-target="<%= "#editPartModal" + partId %>" type="button" class="btn btn-primary">Edit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ./editPartModal.html %>
+<% include ../scripts/deletePartScript.html %>

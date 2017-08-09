@@ -1,0 +1,10 @@
+<!-- modals.html -->
+<!-- Declares EJS variables one time so that they're not redeclared every time a loop runs -->
+<!-- Loads BOM modals for each part -->
+
+<% let partId, newKey, left, right, top, bottom, horizontalRatio, verticalRatio;
+  parts.map((part) => {
+    <!-- partId is used frequently to create unique HTML element identifiers -->
+    partId = part.findNumber.S.replace(".", ""); %> <!-- handles find number format XXXX.X -->
+    <% include ../modals/bomModal.html %>
+<% }); %>

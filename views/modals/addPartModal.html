@@ -1,0 +1,44 @@
+<!-- addPartModal.html -->
+<!-- Triggered by the Add Part button on the View All Parts tab -->
+<!-- Contains a form to manually add a part on the front end -->
+
+<!-- Bootstrap modal format -->
+<div class="modal fade" id="addPartModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Part</h4>
+      </div>
+      <div class="modal-body">
+        <form id="addPartForm" role="form">
+          <!-- Assumes that the attributes for the new part are the same as the first existing part in the Parts table -->
+          <!-- This is a poor assumption...option should be made to be able to customize attributes -->
+          <% for(let key in parts[0]){
+              switch(key){
+                case "findNumber":
+                  newKey = "Find Number";
+                  break;
+                case "type":
+                  newKey = "Type";
+                  break;
+                default:
+                  newKey = key;
+                  break;
+              } %>
+              <div class="form-group">
+                <label for="<%= newKey %>"><%= newKey + ":" %></label>
+                <input type="text" class="form-control" id="<%= newKey %>" name="<%= newKey %>">
+              </div>
+          <% } %>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="addPart" type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ../scripts/addPartScript.html %>

@@ -1,0 +1,21 @@
+<!-- panzoomScript.html -->
+<!-- Implements the panzoom library giving the ability to zoom in/out by scrolling and pan by dragging -->
+
+<script type="text/javascript" src="/jquery/jquery.panzoom.js"></script>
+<script type="text/javascript">
+  //maxScale for zoom in is set to 12...see defaults in jquery.panzoom.js
+  (function() {
+        var $section = $("<%= "#section" + drawing.id.S %>");
+        var $panzoom = $section.find('.panzoom').panzoom();
+        //make sure this works in all browsers...might need to add to the first parameter in on() below
+        $panzoom.parent().on('mousewheel.image', function( e ) {
+          e.preventDefault();
+          var delta = e.delta || e.originalEvent.wheelDelta;
+          var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+          $panzoom.panzoom('zoom', zoomOut, {
+            animate: false,
+            focal: e
+          });
+        });
+      })();
+</script>

@@ -1,0 +1,15 @@
+<!-- editPartScript.html -->
+<!-- Makes a POST request to the /addPart route on submission of the editPartForm -->
+<!-- Does essentially the same thing as the addPartScript because updated parts will override existing parts with the same findNumber -->
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    //identifies button using partId
+    $("<%= "#editPartSubmit" + partId %>").click(() => {
+      $.post("/addPart", $("<%= "#editPartForm" + partId %>").serialize()); //serialize returns form in JSON
+      $("<%= "#editPartModal" + partId %>").modal('hide'); //close the form
+      $("<%= "#bom" + partId %>").modal('hide'); //close the BOM, which is still underneath the form
+      $.get("/"); //render page with updated database
+    });
+  });
+</script>

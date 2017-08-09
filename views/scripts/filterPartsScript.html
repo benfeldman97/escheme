@@ -1,0 +1,20 @@
+<!-- filterPartsScript.html -->
+<!-- Functionality for the search bar on the View All Parts tab -->
+<!-- Filters all parts with find numbers that begin with the search value -->
+<!-- Gets triggered every time a character is entered or deleted in the search bar -->
+
+<script type="text/javascript">
+  let filterParts = () => {
+    let searchValue = document.getElementById('partSearch').value;
+    let searchLength = searchValue.length;
+    let parts = document.getElementsByClassName('parts');
+    for(let i = 0; i < parts.length; i++){
+      //only check up to the length of the search input
+      if(parts[i].id.substring(0, searchLength) == searchValue){
+        parts[i].style = "cursor:pointer"; //initial style
+      }else{
+        parts[i].style = "display:none"; //hide part on page
+      }
+    };
+  };
+</script>

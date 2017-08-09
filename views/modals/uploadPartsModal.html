@@ -1,0 +1,30 @@
+<!-- uploadPartsModal.html -->
+<!-- Contains a form to upload a spreadsheet with parts to add to database -->
+
+<!-- Bootstrap modal format -->
+<div class="modal fade" id="uploadPartsModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload Parts</h4>
+      </div>
+      <div class="modal-body">
+        <h3>Upload a parts spreadsheet from your computer. The spreasheet must have file extension ".xlsx"</h3>
+        <form id="uploadPartsForm" role="form">
+          <div class="form-group">
+            <label for="partsFile"></label> <!-- Empty labels included in case the form serialize method were called -->
+            <input type="file" id="partsFile" name="partsFile" accept=".xlsx">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <!-- Triggers uploadPartsScript -->
+        <button id="uploadParts" type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ../scripts/uploadPartsScript.html %>

@@ -1,0 +1,23 @@
+<!-- createSchematicScript.html -->
+<!-- Makes a POST request to the /createSchematic route on submission of the createSchematicForm -->
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    $("#createSchematic").click(() => {
+      //THIS IS A CHEAT: file uploads will only return a fakepath like C:\fakepath\realfilename
+      //A file upload or file reader dependency should be implemented to get the actual file content
+      let drawingFileArray = document.getElementById("drawingFile").value.split('\\');
+      let drawingFile = drawingFileArray[drawingFileArray.length - 1]; //isolates realfilename which is assumed to be in the static directory
+      let imageFileArray = document.getElementById("imageFile").value.split('\\');
+      let imageFile = imageFileArray[imageFileArray.length - 1];
+      let schematicName = document.getElementById("schematicName").value;
+      $.post("/createSchematic", {
+        drawingFile: drawingFile,
+        imageFile: imageFile,
+        schematicName: schematicName
+      });
+      $("#createSchematicModal").modal('hide'); //close the form
+      $.get("/"); //render page with updated database
+    });
+  });
+</script>

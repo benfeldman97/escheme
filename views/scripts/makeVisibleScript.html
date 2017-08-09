@@ -1,0 +1,11 @@
+<!-- makeVisibleScript.html -->
+<!-- Makes the schematic images visible the first time a tab gets clicked -->
+
+<script type="text/javascript">
+  let makeVisible = () => {
+    let tabs = document.getElementsByClassName('tab-pane');
+    for(let i = 0; i < tabs.length; i++){
+      tabs[i].style = ""; //default style visibility is "visible"
+    }
+  }
+</script>

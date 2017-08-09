@@ -1,0 +1,25 @@
+<!-- parts.html -->
+<!-- Content for "View All Parts" tab -->
+<!-- Includes a parts list, upload and add buttons, and search bar -->
+
+<div class="parts-header">
+  <!-- Triggers upload parts modal -->
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadPartsModal">Upload Parts</button>
+  <% include ../modals/uploadPartsModal.html %>
+  <!-- Triggers add part modal -->
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addPartModal">Add Part</button>
+  <% include ../modals/addPartModal.html %>
+  <input type="search" id="partSearch" placeholder="Search by find number" oninput="filterParts()">
+</div>
+<div class="part-columns">
+  <% parts.map((part) => { %>
+    <!-- partId is used frequently to create unique HTML element identifiers -->
+    <% partId = part.findNumber.S.replace(".", "") %>
+      <!-- Triggers respective BOM modal -->
+      <div class="parts" style="cursor:pointer;" data-toggle="modal" data-target="<%= "#bom" + partId %>" id="<%= partId %>">
+        <h5 class><%= part.type.S + " " + part.findNumber.S %></h5>
+      </div>
+  <% }) %>
+</div>
+
+<% include ../scripts/filterPartsScript.html %>
